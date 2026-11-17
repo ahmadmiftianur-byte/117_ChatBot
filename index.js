@@ -54,4 +54,28 @@ app.post("/api/chat", async (req, res) => {
             });
         }
 
-        
+ //header untuk streaming
+        res.setHeader("Content-Type", "text/event-stream");
+        res.set.Header("Cache-Control", "no-cache");
+        res.set.Header("Connection", "keep-alive");
+
+        const reader = response.body.getReader();
+        const decorer = new TextDecoder();
+
+
+        let buffer = "";
+
+        while (true) {
+            const { done, value } = await reader.read();
+
+            if (done) {
+                break;
+            }
+
+            buffer += decoder.decode(value, {
+                stream: true 
+            });
+
+            const lines = buffer.split("\n");
+
+            
