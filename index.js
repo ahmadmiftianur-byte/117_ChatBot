@@ -78,4 +78,74 @@ app.post("/api/chat", async (req, res) => {
 
             const lines = buffer.split("\n");
 
-            
+            // simpan bagian terakhir karena mungkin belum lengkap
+            buffer = lines.pop();
+
+            for (const line of lines) {
+                const trimedline = line.trim();
+
+                if (!trimedline) {
+                    continue;
+                }
+
+                if (!trimedline.startsWith("data:")) {
+                    continue;
+                }
+
+                const data = trimedline.slice(5).trim();
+
+                if (data === "[done]") {
+                    continue;
+                }
+
+                try {
+
+                    const json = json.parse(data);
+                
+                
+                const content = 
+                    json.choices?.[0].delta?.content;
+
+                    if (content) {
+                        res.write('data: $(JSON, stringifly(content))\n\n');
+                    }
+
+                } catch (error) {
+                    consule.error(
+                        "gagal parshing streaming data: ",
+                        error
+                    );
+                }
+            }
+        }
+
+        res.write("data: [DONE]\n\n");
+        res.end();
+
+        } catch (error) {
+
+        consule.error("server Error", error);
+
+        if (!res.headersSent) {
+        res.status(500).json({
+            error: "Terjadi kesalah pada server"
+        });
+
+        } else {
+        res.write(
+            `data: $(json.stringify(
+                "terjadi kesalahan pada server"
+            )}\n\n`
+        );
+
+        res.end();
+
+        }
+    }
+
+});
+
+
+app.listen(post, () => {
+    consule.log('server berjalan di http://localhost:$(PORT)');
+});       
