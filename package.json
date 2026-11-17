@@ -1,0 +1,21 @@
+{
+  "name": "pertemuan-10-pws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmadmiftianur-byte/117_ChatBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ahmadmiftianur-byte/117_ChatBot/issues"
+  },
+  "homepage": "https://github.com/ahmadmiftianur-byte/117_ChatBot#readme"
+}
