@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NeMo Assistant - Chatbot AI</title>
+
+    <!-- Menghubungkan CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">✦</div>
+
+                <div>
+                    <strong>NeMo Assistant</strong>
+                    <small>Teman Digital Kamu</small>
+                </div>
+
+            </div>
+
+            <!-- Tombol Chat Baru -->
+            <button class="new-chat" id="newChat">
+                ＋ Percakapan Baru
+            </button>
+
+            <div class="side-label">
+                MENU
+            </div>
+
+            <div class="topic active"
+                data-prompt="Halo, siapa kamu?">
+
+                ✧ Mulai Percakapan
+
+            </div>
+
+            <div class="topic"
+                data-prompt="Bantu saya belajar pemrograman Python.">
+
+                ⌘ Belajar Pemrograman
+
+            </div>
+
+            <div class="topic"
+                data-prompt="Berikan tips belajar yang efektif untuk mahasiswa.">
+
+                ◷ Tips Belajar
+
+            </div>
+
+            <div class="topic"
+                data-prompt="Bantu saya mencari ide proyek teknologi.">
+
+                ◇ Ide Proyek
+
+            </div>
+
+            <div class="side-bottom">
+
+                <span class="online-dot"></span>
+                Chatbot Aktif
+
+                <small>Powered by OpenRouter AI</small>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+            <!-- HEADER -->
+            <header class="header">
+
+                <div class="heading">
+
+                    <div class="avatar">✦</div>
+
+                    <div>
+
+                        <h1>Chatbot AI</h1>
+
+                        <div class="subtitle">
+                            <span class="online-dot"></span>
+                            Siap membantu kapan saja
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="model">
+                    ✧ NeMo Assistant
+                </div>
+
+            </header>
+
+
+            <!-- AREA CHAT -->
+            <section class="chat" id="chat">
+
+                <!-- WELCOME -->
+                <div class="welcome" id="welcome">
+
+                    <div class="welcome-art">
+                        ✦
+                    </div>
+
+                    <h2>Halo, ada yang bisa dibantu?</h2>
+
+                    <p>
+                        Selamat datang di NeMo Assistant!
+                        Tanyakan sesuatu, cari inspirasi,
+                        atau mulai percakapan dari pilihan
+                        di bawah ini.
+                    </p>
+
+
+                    <!-- SARAN PERTANYAAN -->
+                    <div class="suggestions">
+
+                        <button class="suggestion"
+                            data-prompt="Jelaskan apa itu HTML dengan bahasa sederhana.">
+
+                            <b>💻 Belajar HTML</b>
+
+                            <span>
+                                Mulai belajar dari dasar
+                            </span>
+
+                        </button>
+
+
+                        <button class="suggestion"
+                            data-prompt="Buatkan jadwal belajar untuk mahasiswa.">
+
+                            <b>📚 Jadwal Belajar</b>
+
+                            <span>
+                                Atur waktu lebih terarah
+                            </span>
+
+                        </button>
+
+
+                        <button class="suggestion"
+                            data-prompt="Berikan 3 ide proyek aplikasi sederhana.">
+
+                            <b>💡 Ide Proyek</b>
+
+                            <span>
+                                Temukan inspirasi baru
+                            </span>
+
+                        </button>
+
+
+                        <button class="suggestion"
+                            data-prompt="Apa tips agar lebih produktif setiap hari?">
+
+                            <b>⚡ Produktivitas</b>
+
+                            <span>
+                                Bangun kebiasaan positif
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- INPUT PESAN -->
+            <div class="composer-wrap">
+
+                <form class="composer" id="chatForm">
+
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Ketik pesan kamu di sini..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="submit"
+                        class="send"
+                        id="sendBtn"
+                        title="Kirim pesan"
+                    >
+
+                        ➤
+
+                    </button>
+
+                </form>
+
+
+                <div class="hint">
+                    Enter untuk mengirim pesan · AI Assistant
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- Menghubungkan JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
