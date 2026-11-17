@@ -1,3 +1,4 @@
+
 const express = require('express');
 const dotenv = require('dotenv');
 const { buffer } = require('node:stream/consumers');
@@ -11,31 +12,33 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 app.post("/api/chat", async (req, res) => {
+
     try {
+
         const messages = req.body.messages;
 
         if (!messages || !Array.isArray(messages)) {
-            return res.status(400).json({ 
-                error: "message harus berupa array" 
+            return res.status(400).json({
+                error: "message harus berupa array"
             });
         }
 
         const response = await fetch(
-            "https://api.openrouter.ai/v1/chat/completions", 
+            "https://openrouter.ai/api/v1/chat/completions",
             {
                 method: "POST",
-                
+
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`
                 },
-                
+
                 body: JSON.stringify({
-                    model: "openchatinclusionai/ling-3.2-flash:free",
+                    model: "inclusionai/ling-3.2-flash:free",
                     messages: messages,
                     temperature: 0.7,
                     max_tokens: 1000,
@@ -43,29 +46,30 @@ app.post("/api/chat", async (req, res) => {
                 })
             }
         );
-        
-        if (!response.ok) {
-            const erroData = await response.text();
 
-            consule.error("openRouter error: ", errorData);
+        if (!response.ok) {
+
+            const errorData = await response.text();
+
+            console.error("OpenRouter error:", errorData);
 
             return res.status(response.status).json({
                 error: errorData
             });
         }
 
- //header untuk streaming
+        // Header untuk streaming
         res.setHeader("Content-Type", "text/event-stream");
-        res.set.Header("Cache-Control", "no-cache");
-        res.set.Header("Connection", "keep-alive");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
 
         const reader = response.body.getReader();
-        const decorer = new TextDecoder();
-
+        const decoder = new TextDecoder();
 
         let buffer = "";
 
         while (true) {
+
             const { done, value } = await reader.read();
 
             if (done) {
@@ -73,48 +77,54 @@ app.post("/api/chat", async (req, res) => {
             }
 
             buffer += decoder.decode(value, {
-                stream: true 
+                stream: true
             });
 
             const lines = buffer.split("\n");
 
-            // simpan bagian terakhir karena mungkin belum lengkap
+            // Simpan bagian terakhir karena mungkin belum lengkap
             buffer = lines.pop();
 
             for (const line of lines) {
-                const trimedline = line.trim();
 
-                if (!trimedline) {
+                const trimmedLine = line.trim();
+
+                if (!trimmedLine) {
                     continue;
                 }
 
-                if (!trimedline.startsWith("data:")) {
+                if (!trimmedLine.startsWith("data:")) {
                     continue;
                 }
 
-                const data = trimedline.slice(5).trim();
+                const data = trimmedLine.slice(5).trim();
 
-                if (data === "[done]") {
+                if (data === "[DONE]") {
                     continue;
                 }
 
                 try {
 
-                    const json = json.parse(data);
-                
-                
-                const content = 
-                    json.choices?.[0].delta?.content;
+                    const json = JSON.parse(data);
+
+                    const content =
+                        json.choices?.[0].delta?.content;
 
                     if (content) {
-                        res.write('data: $(JSON, stringifly(content))\n\n');
+
+                        res.write(
+                            `data: ${JSON.stringify(content)}\n\n`
+                        );
+
                     }
 
                 } catch (error) {
-                    consule.error(
-                        "gagal parshing streaming data: ",
+
+                    console.error(
+                        "Gagal parsing streaming data:",
                         error
                     );
+
                 }
             }
         }
@@ -122,30 +132,29 @@ app.post("/api/chat", async (req, res) => {
         res.write("data: [DONE]\n\n");
         res.end();
 
-        } catch (error) {
+    } catch (error) {
 
-        consule.error("server Error", error);
+        console.error("Server Error:", error);
 
         if (!res.headersSent) {
-        res.status(500).json({
-            error: "Terjadi kesalah pada server"
-        });
+
+            res.status(500).json({
+                error: "Terjadi kesalahan pada server"
+            });
 
         } else {
-        res.write(
-            `data: $(json.stringify(
-                "terjadi kesalahan pada server"
-            )}\n\n`
-        );
 
-        res.end();
+            res.end();
 
         }
     }
 
 });
 
+app.listen(port, () => {
 
-app.listen(post, () => {
-    consule.log('server berjalan di http://localhost:$(PORT)');
-});       
+    console.log(
+        `Server berjalan di http://localhost:${port}`
+    );
+
+});
